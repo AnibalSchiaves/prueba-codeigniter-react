@@ -26,18 +26,87 @@
 
 - en app/Controller/Home.php agrego
 
-
-    public function react(): string 
-    {
-        return view('reactapp');
-    }
+```php
+public function react(): string 
+{
+    return view('reactapp');
+}
+```
     
 - en app/Config/Routes.php agrego:
 
-	$routes->get('/react', 'Home::react');
+```php
+$routes->get('/react', 'Home::react');
+```
 	
 - cd ..
 
 - php spark serve
 
 - en http://localhost:8080 responde codeigniter y en http://localhost:8080/react responde la app react
+
+## Agregado de routing en react-app
+
+- cd react-app
+
+- npm install react-router-dom
+
+- cree Home.js con
+
+```javascript
+export function Home() {
+    return <p>Bienvenido a la aplicación React embebida</p>
+}
+```
+
+- cree Info.js con:
+
+```javascript
+export function Info() {
+    return <p>Este es un subcomponente dentro de la aplicación embebida de React</p>
+}
+```
+
+- edite App.js para agregar dos rutas: "/" y "/info, a las cuales responde con el componente Home e Info respectivamente:
+
+```javascript
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        
+        <BrowserRouter>
+          <Routes>
+            <Route path="/react" element={<Home></Home>}></Route>
+            <Route path="/react/info" element={<Info></Info>}></Route>
+          </Routes>
+        </BrowserRouter>
+      </header>
+    </div>
+  );
+```
+- npm run build
+
+- rm -r ../public/static
+
+- cp build/index.html ../app/Views/reactapp.php
+
+- cp -r build/static ../public/
+
+- edite app/Config/Routes.php agregando:
+
+```php
+$routes->get('/react/info', 'Home::react');
+```
+
+- cd ..
+
+- php spark serve
+
+- en http://localhost:8080 responde codeigniter 
+
+- en http://localhost:8080/react responde la app react con su componente Home
+
+- en http://localhost:8080/react/info responde la app react con su componente Info
+

@@ -8,3 +8,5 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->get('/react', 'Home::react');
+
+$routes->get('/react/info', 'Home::react');
